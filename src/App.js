@@ -1,4 +1,8 @@
+<<<<<<< master
 import React from "react";
+=======
+import React, { useState } from "react";
+>>>>>>> commit
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -9,12 +13,33 @@ import { Show } from "./containers/Show.jsx";
 import { Create } from "./containers/Create.jsx";
 
 function App() {
+  const [loggedInStatus, setLoggedInStatus] = useState("未ログイン");
+  const [user, setUser] = useState({});
+
+  const handleLogin = (data) => {
+    setLoggedInStatus("ログインなう");
+    setUser(data.user);
+  };
   return (
     <Router>
       <Switch>
         <Route exact path="/auth">
           <Auth />
         </Route>
+<<<<<<< master
+=======
+        <Route
+          exact
+          path={"/"}
+          render={(props) => (
+            <Index
+              {...props}
+              handleLogin={handleLogin}
+              loggedInStatus={loggedInStatus}
+            />
+          )}
+        />
+>>>>>>> commit
 
         <Route exact path="/">
           <Index />

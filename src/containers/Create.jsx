@@ -13,40 +13,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Create = () => {
+export const Create = (props) => {
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => console.log(data);
   console.log(errors);
 
   return (
-    <Grid container alignItems="center" justify="center">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid item xs={12}>
-          <TextField
-            label="性(漢字)"
-            type="text"
-            name="first_name"
-            size="normal"
-            margin="normal"
-            inputRef={register({ required: true, maxLength: 20 })}
-            error={Boolean(errors.title)}
-            helperText={errors.title && "タイトルは20文字以内にして下さい。"}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="性(漢字)"
-            type="text"
-            name="first_name"
-            size="normal"
-            margin="normal"
-            inputRef={register({ required: true, maxLength: 20 })}
-            error={Boolean(errors.title)}
-            helperText={errors.title && "タイトルは20文字以内にして下さい。"}
-          />
-        </Grid>
-        <input type="submit" />
-      </form>
-    </Grid>
+    <>
+      <h2>ログイン状態: {props.loggedInStatus}</h2>
+      <Grid container alignItems="center" justify="center">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid item xs={12}>
+            <TextField
+              label="性(漢字)"
+              type="text"
+              name="first_name"
+              size="normal"
+              margin="normal"
+              inputRef={register({ required: true, maxLength: 20 })}
+              error={Boolean(errors.title)}
+              helperText={errors.title && "タイトルは20文字以内にして下さい。"}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="性(漢字)"
+              type="text"
+              name="first_name"
+              size="normal"
+              margin="normal"
+              inputRef={register({ required: true, maxLength: 20 })}
+              error={Boolean(errors.title)}
+              helperText={errors.title && "タイトルは20文字以内にして下さい。"}
+            />
+          </Grid>
+          <input type="submit" />
+        </form>
+      </Grid>
+    </>
   );
 };

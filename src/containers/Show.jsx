@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 export const Show = () => {
-  return <Fragment>詳細表示ページ</Fragment>;
+  return <div>詳細表示画面</div>;
 };

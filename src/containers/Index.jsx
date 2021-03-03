@@ -17,6 +17,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import { Registration } from "./Registration";
 
 const drawerWidth = 240;
 
@@ -77,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Index = () => {
+export const Index = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -88,6 +89,11 @@ export const Index = () => {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleSuccessfulAuthentication = (data) => {
+    props.handleLogin(data);
+    props.history.push("/create");
   };
 
   return (
@@ -163,6 +169,10 @@ export const Index = () => {
         <div className={classes.drawerHeader} />
         <Typography paragraph>
           <div>受講生一覧</div>
+          <h2>ログイン状態: {props.loggedInStatus}</h2>
+          <Registration
+            handleSuccessfulAuthentication={handleSuccessfulAuthentication}
+          />
         </Typography>
         <Typography paragraph></Typography>
       </main>
