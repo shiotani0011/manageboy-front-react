@@ -1,54 +1,29 @@
-import React, { useState } from "react";
 import axios from "axios";
+import {useAppDispatch} from "../store";
+import {useForm} from "react-hook-form";
 
 export const Login = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+	const dispatch = useAppDispatch();
+	const {handleSubmit, errors, register} = useForm();
 
-  const handleSubmit = (event) => {
-    axios
-      .post(
-        "http://localhost:4001/login",
-        {
-          user: {
-            email: email,
-            password: password,
-          },
-        },
-        { withCredentials: true }
-      )
-      .then((response) => {
-        if (response.data.status === "created") {
-          props.handleSuccessfulAuthentication(response.data);
-        }
-      })
-      .catch((error) => {
-        console.log("registration error", error);
-      });
-    event.preventDefault();
-  };
+	const onSubmit = data => console.log(data);
 
-  return (
-    <div>
-      <p>ログイン</p>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          placeholder="メールアドレス"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="パスワード"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-
-        <button type="submit">ログイン</button>
-      </form>
-    </div>
-  );
+	return (
+		<form onSubmit={handleSubmit(onSubmit)}>
+			<p>ログイン</p>
+			<input
+				type="email"
+				name="email"
+				placeholder="メールアドレス"
+				ref={register({required: true})}
+			/>
+			<input
+				type="password"
+				name="password"
+				placeholder="パスワード"
+				ref={register({required: true})}
+			/>
+			<button type="submit">ログイン</button>
+		</form>
+	);
 };

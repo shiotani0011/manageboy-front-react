@@ -15,4 +15,5 @@ export const store = configureStore({
 	reducer: rootReducer,
 	middleware: [...getDefaultMiddleware()],
 });
+
 export const useAppDispatch = () => useDispatch();
