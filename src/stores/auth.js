@@ -28,6 +28,7 @@ export const requestPostLogin = (params) => async (dispatch) => {
 	dispatch(postLoginRequest());
 	try {
 		const data = await postLogin(params);
+		console.log(data);
 		if (data) {
 			// ログイン成功、セッション格納
 		} else {

@@ -1,12 +1,21 @@
 import axios from "axios";
 import {useAppDispatch} from "../store";
 import {useForm} from "react-hook-form";
+import {requestPostLogin} from "../stores/auth";
 
 export const Login = (props) => {
 	const dispatch = useAppDispatch();
 	const {handleSubmit, errors, register} = useForm();
 
-	const onSubmit = data => console.log(data);
+	const onSubmit = data => {
+		const params = {
+			user: {
+				email: data.email,
+				password: data.password,
+			}
+		}
+		dispatch(requestPostLogin(params));
+	}
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
