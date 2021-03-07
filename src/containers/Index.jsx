@@ -19,6 +19,8 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import { Registration } from "./Registration";
 import { Login } from "./Login";
+import { Show } from "./Show";
+import { CreateButton } from "./CreateButton";
 
 const drawerWidth = 240;
 
@@ -169,16 +171,30 @@ export const Index = (props) => {
       >
         <div className={classes.drawerHeader} />
         <Typography paragraph>
-          <div>受講生一覧</div>
-          <h2>ログイン状態: {props.loggedInStatus}</h2>
+          <div
+            style={{
+              fontSize: 36,
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <div>受講生一覧</div>
+            <CreateButton />
+          </div>
+          <hr size="1" />
+          {/* <h2>ログイン状態: {props.loggedInStatus}</h2>
           <Registration
             handleSuccessfulAuthentication={handleSuccessfulAuthentication}
           />
           <Login
             handleSuccessfulAuthentication={handleSuccessfulAuthentication}
-          />
+          /> */}
         </Typography>
-        <Typography paragraph></Typography>
+        <Typography paragraph>
+          <div style={{ marginTop: 200 }}>
+            <Show />
+          </div>
+        </Typography>
       </main>
     </div>
   );
