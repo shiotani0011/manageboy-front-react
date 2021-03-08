@@ -10,12 +10,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const CreateButton = () => {
+export const CreateButton = (props) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Button variant="outlined">受講生登録</Button>
+      <Button variant="outlined">{props.buttonName}</Button>
     </div>
   );
 };

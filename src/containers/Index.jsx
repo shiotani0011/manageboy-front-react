@@ -175,11 +175,11 @@ export const Index = (props) => {
             style={{
               fontSize: 36,
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "space-around",
             }}
           >
             <div>受講生一覧</div>
-            <CreateButton />
+            <CreateButton buttonName={"戻る"} />
           </div>
           <hr size="1" />
           {/* <h2>ログイン状態: {props.loggedInStatus}</h2>
@@ -191,8 +191,17 @@ export const Index = (props) => {
           /> */}
         </Typography>
         <Typography paragraph>
-          <div style={{ marginTop: 200 }}>
-            <Show />
+          <div
+            style={{
+              marginTop: 100,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div style={{ width: "60vw" }}>
+              <Show />
+            </div>
           </div>
         </Typography>
       </main>
