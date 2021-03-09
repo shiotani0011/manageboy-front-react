@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
+import { Box } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,16 +22,14 @@ export const Create = (props) => {
   return (
     <>
       <div>
-        <p
-          style={{
-            fontSize: 36,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+        <Box
+          fontSize="36"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
         >
           登録フォーム
-        </p>
+        </Box>
         <hr size="1" />
         <div>
           <Grid container alignItems="center" justify="center">

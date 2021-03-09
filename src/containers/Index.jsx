@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -21,6 +21,7 @@ import { Registration } from "./Registration";
 import { Login } from "./Login";
 import { Show } from "./Show";
 import { CreateButton } from "./CreateButton";
+import { Box } from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -99,6 +100,8 @@ export const Index = (props) => {
     props.history.push("/create");
   };
 
+  
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -171,38 +174,25 @@ export const Index = (props) => {
       >
         <div className={classes.drawerHeader} />
         <Typography paragraph>
-          <div
-            style={{
-              fontSize: 36,
-              display: "flex",
-              justifyContent: "space-around",
-            }}
-          >
-            <div>受講生一覧</div>
-            <CreateButton buttonName={"戻る"} />
-          </div>
+          <Box display="flex" justifyContent="space-around">
+            <Typography variant="h3" gutterBottom>
+              受講生一覧
+            </Typography>
+            <CreateButton buttonName="戻る" />
+          </Box>
           <hr size="1" />
-          {/* <h2>ログイン状態: {props.loggedInStatus}</h2>
-          <Registration
-            handleSuccessfulAuthentication={handleSuccessfulAuthentication}
-          />
-          <Login
-            handleSuccessfulAuthentication={handleSuccessfulAuthentication}
-          /> */}
         </Typography>
         <Typography paragraph>
-          <div
-            style={{
-              marginTop: 100,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+          <Box
+            mt={10}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
           >
-            <div style={{ width: "60vw" }}>
+            <Box width="60vw">
               <Show />
-            </div>
-          </div>
+            </Box>
+          </Box>
         </Typography>
       </main>
     </div>

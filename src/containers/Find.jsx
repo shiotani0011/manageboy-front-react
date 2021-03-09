@@ -12,6 +12,8 @@ import FirstPageIcon from "@material-ui/icons/FirstPage";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 import { CreateButton } from "./CreateButton";
 
 const useStyles1 = makeStyles((theme) => ({
@@ -132,25 +134,14 @@ export const Find = () => {
 
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-around",
-        }}
-      >
-        <p style={{ fontSize: 36 }}>受講生詳細データ</p>
+      <Box display="flex" alignItems="center" justifyContent="space-around">
+        <Typography variant="h3" gutterBottom>
+          受講生詳細データ
+        </Typography>
         <CreateButton buttonName={"戻る"} />
-      </div>
+      </Box>
       <hr size="1" />
-      <div
-        style={{
-          marginTop: 120,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      <Box mt={20} display="flex" alignItems="center" justifyContent="center">
         <TableContainer
           component={Paper}
           style={{
@@ -187,18 +178,16 @@ export const Find = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
-      <div
-        style={{
-          marginTop: 20,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-around",
-        }}
+      </Box>
+      <Box
+        mt={5}
+        display="flex"
+        alignItems="center"
+        justifyContent="space-around"
       >
         <CreateButton buttonName={"編集"} />
         <CreateButton buttonName={"削除"} />
-      </div>
+      </Box>
     </>
   );
 };
