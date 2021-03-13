@@ -4,6 +4,11 @@ import {Provider as ReduxProvider} from 'react-redux';
 import {store} from "./store";
 
 const App = () => {
+	// トークンの確認をする
+
+	// if(トークンが有効だったら)
+	// else (トークンがなかったら)
+
 	return (
 		<ReduxProvider store={store}>
 			<Routes/>

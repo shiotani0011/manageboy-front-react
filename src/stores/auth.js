@@ -28,6 +28,12 @@ export const requestPostLogin = (params) => async (dispatch) => {
 	dispatch(postLoginRequest());
 	try {
 		const data = await postLogin(params);
+		if(data.status === 'error') {
+			// エラー処理
+		} else {
+			// localStorageにトークンをセットする
+			localStorage.setItem('token', data.token);
+		}
 	} catch (error) {
 		// ログイン失敗
 		console.error("error!!!")

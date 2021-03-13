@@ -2,19 +2,25 @@ import axios from "axios";
 import {useAppDispatch} from "../store";
 import {useForm} from "react-hook-form";
 import {requestPostLogin} from "../stores/auth";
+import {useHistory} from "react-router-dom";
 
 export const Login = (props) => {
 	const dispatch = useAppDispatch();
+	const history = useHistory();
 	const {handleSubmit, errors, register} = useForm();
 
-	const onSubmit = data => {
+	const onSubmit = async (data) => {
 		const params = {
 			user: {
 				email: data.email,
 				password: data.password,
 			}
 		}
-		dispatch(requestPostLogin(params));
+		await dispatch(requestPostLogin(params));
+		const token = await localStorage.getItem('token');
+		if(token !== null) {
+			history.push('/');
+		}
 	}
 
 	return (
