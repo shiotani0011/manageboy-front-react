@@ -9,13 +9,11 @@ export const Registration = (props) => {
   const handleSubmit = (event) => {
     axios
       .post(
-        "http://localhost:4001/signup",
+        "http://localhost:4001/v1/auth",
         {
-          user: {
-            email: email,
-            password: password,
-            password_confirmation: passwordConfirmation,
-          },
+          email: email,
+          password: password,
+          // password_confirmation: passwordConfirmation,
         },
         { withCredentials: true }
       )
@@ -48,13 +46,13 @@ export const Registration = (props) => {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-        <input
+        {/* <input
           type="password"
           name="password_confirmation"
           placeholder="確認用パスワード"
           value={passwordConfirmation}
           onChange={(event) => setPasswordConfirmation(event.target.value)}
-        />
+        /> */}
 
         <button type="submit">登録</button>
       </form>

@@ -28,14 +28,15 @@ export const requestPostLogin = (params) => async (dispatch) => {
 	dispatch(postLoginRequest());
 	try {
 		const data = await postLogin(params);
-		console.log(data);
-		if (data) {
-			// ログイン成功、セッション格納
+		if(data.status === 'error') {
+			// エラー処理
 		} else {
-			// ログイン失敗
+			// localStorageにトークンをセットする
+			localStorage.setItem('token', data.token);
 		}
-		dispatch(postLoginSuccess());
 	} catch (error) {
+		// ログイン失敗
+		console.error("error!!!")
 		dispatch(postLoginFailure());
 	}
 };
