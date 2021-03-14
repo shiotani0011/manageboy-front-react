@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -19,6 +19,9 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import { Registration } from "./Registration";
 import { Login } from "./Login";
+import { Show } from "./Show";
+import { CreateButton } from "./CreateButton";
+import { Box } from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -97,6 +100,8 @@ export const Index = (props) => {
     props.history.push("/create");
   };
 
+  
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -169,16 +174,26 @@ export const Index = (props) => {
       >
         <div className={classes.drawerHeader} />
         <Typography paragraph>
-          <div>受講生一覧</div>
-          <h2>ログイン状態: {props.loggedInStatus}</h2>
-          <Registration
-            handleSuccessfulAuthentication={handleSuccessfulAuthentication}
-          />
-          <Login
-            handleSuccessfulAuthentication={handleSuccessfulAuthentication}
-          />
+          <Box display="flex" justifyContent="space-around">
+            <Typography variant="h3" gutterBottom>
+              受講生一覧
+            </Typography>
+            <CreateButton buttonName="戻る" />
+          </Box>
+          <hr size="1" />
         </Typography>
-        <Typography paragraph></Typography>
+        <Typography paragraph>
+          <Box
+            mt={10}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Box width="60vw">
+              <Show />
+            </Box>
+          </Box>
+        </Typography>
       </main>
     </div>
   );
