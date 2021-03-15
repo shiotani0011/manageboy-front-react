@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -15,6 +15,8 @@ import {
   membersActionTyps,
   membersReducer,
 } from "../reducers/members";
+import axios from "axios";
+import { SettingsInputSvideoSharp } from "@material-ui/icons";
 
 const columns = [
   { id: "id", label: "ID", minWidth: 100 },
@@ -85,18 +87,42 @@ export const Show = () => {
     setPage(0);
   };
 
-  const [state, dispatch] = useReducer(membersReducer, initialState);
+  // const axiosMembers = () => {
+  //   axios
+  //     .get("http://localhost:4001/api/members")
+  //     .then((res) => {
+  //       this.setState({ members: res.data });
+  //     })
+  //     .catch((data) => {
+  //       console.log(data);
+  //     });
+  // };
+
+  // const [state, dispatch] = useReducer(membersReducer, initialState);
+
+  // useEffect(() => {
+  //   dispatch({ type: membersActionTyps.FETCHING });
+  //   fetchMembers().then((res) =>
+  //     dispatch({
+  //       type: membersActionTyps.FETCH_SUCCESS,
+  //       payload: {
+  //         members: res.members,
+  //       },
+  //     })
+  //   );
+  // }, []);
+
+  // データ取得
+  const [members, setMembers] = useState([]);
 
   useEffect(() => {
-    dispatch({ type: membersActionTyps.FETCHING });
-    fetchMembers().then((res) =>
-      dispatch({
-        type: membersActionTyps.FETCH_SUCCESS,
-        payload: {
-          members: res.members,
-        },
-      })
-    );
+    async function fetchData() {
+      const result = await axios.get("http://localhost:4001/api/members");
+      console.log(result);
+      console.log(result.data);
+      setMembers(result.data);
+    }
+    fetchData();
   }, []);
 
   return (
@@ -155,15 +181,26 @@ export const Show = () => {
         />
       </Paper>
 
-      {/* この部分をテーブルセルに入れたい */}
+      {/* mapで表示したい */}
       <div>
+        {members.map((item) => (
+          <div key={item.id}>
+            [{item.first_name}] [{item.last_name}]
+          </div>
+        ))}
+        {members}
+      </div>
+
+      {/* この部分をテーブルセルに入れたい */}
+
+      {/* <div>
         {state.membersList.map((members) => (
           <div key={members.id}>
             {members.first_name}
             {members.last_name}
           </div>
         ))}
-      </div>
+      </div> */}
     </>
   );
 };
