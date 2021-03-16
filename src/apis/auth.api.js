@@ -22,5 +22,3 @@ export const fetchMembers = () => {
     })
     .catch((e) => console.error(e));
 };
-
-export const getIndex = async (params) => {};
