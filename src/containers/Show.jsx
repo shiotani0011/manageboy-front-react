@@ -46,25 +46,6 @@ const columns = [
   },
 ];
 
-// function createData(id, first_name, last_name, start_date, end_date, mem) {
-//   return { id, first_name, last_name, start_date, end_date, mem };
-// }
-
-// const rows = [
-//   createData("1", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-//   createData("2", "山田花子", "2021/03/01", "2021/04/01", "簡単なメモ"),
-//   createData("3", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-//   createData("4", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-//   createData("5", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-//   createData("11", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-//   createData("101", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-//   createData("999", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-//   createData("999", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-//   createData("999", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-//   createData("999", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-//   createData("999", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-// ];
-
 const useStyles = makeStyles({
   root: {
     width: "100%",
@@ -87,31 +68,6 @@ export const Show = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
-  // const axiosMembers = () => {
-  //   axios
-  //     .get("http://localhost:4001/api/members")
-  //     .then((res) => {
-  //       this.setState({ members: res.data });
-  //     })
-  //     .catch((data) => {
-  //       console.log(data);
-  //     });
-  // };
-
-  // const [state, dispatch] = useReducer(membersReducer, initialState);
-
-  // useEffect(() => {
-  //   dispatch({ type: membersActionTyps.FETCHING });
-  //   fetchMembers().then((res) =>
-  //     dispatch({
-  //       type: membersActionTyps.FETCH_SUCCESS,
-  //       payload: {
-  //         members: res.members,
-  //       },
-  //     })
-  //   );
-  // }, []);
 
   // データ取得
   const [members, setMembers] = useState([]);
@@ -152,7 +108,7 @@ export const Show = () => {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.first_name}>
-                          <Link to="/find">
+                          <Link to={`/find/${row.id}`}>
                             {column.format && typeof value === "number"
                               ? column.format(value)
                               : value}

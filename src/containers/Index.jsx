@@ -22,6 +22,7 @@ import { Login } from "./Login";
 import { Show } from "./Show";
 import { CreateButton } from "./CreateButton";
 import { Box } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -85,6 +86,7 @@ const useStyles = makeStyles((theme) => ({
 export const Index = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -100,7 +102,13 @@ export const Index = (props) => {
     props.history.push("/create");
   };
 
-  
+  const handleRmToken = () => {
+    const rmToken = localStorage.removeItem("token");
+    if (rmToken !== null) {
+      history.push("/login");
+    } else {
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -178,7 +186,8 @@ export const Index = (props) => {
             <Typography variant="h3" gutterBottom>
               受講生一覧
             </Typography>
-            <CreateButton buttonName="戻る" />
+            <button onClick={handleRmToken}>ログアウト</button>
+            <CreateButton buttonName="ログアウト" onClick={handleRmToken} />
           </Box>
           <hr size="1" />
         </Typography>

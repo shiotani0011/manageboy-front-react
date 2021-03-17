@@ -15,7 +15,7 @@ export const Routes = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/show" component={Show} />
         <Route exact path="/create" component={Create} />
-        <Route exact path="/find" component={Find} />
+        <Route exact path="/find/:id" component={Find} />
       </Switch>
     </BrowserRouter>
   );
