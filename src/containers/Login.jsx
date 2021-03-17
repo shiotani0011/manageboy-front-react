@@ -1,38 +1,47 @@
 import axios from "axios";
-import {useAppDispatch} from "../store";
-import {useForm} from "react-hook-form";
-import {requestPostLogin} from "../stores/auth";
+import { useAppDispatch } from "../store";
+import { useForm } from "react-hook-form";
+import { requestPostLogin } from "../stores/auth";
+import { useHistory } from "react-router-dom";
 
 export const Login = (props) => {
-	const dispatch = useAppDispatch();
-	const {handleSubmit, errors, register} = useForm();
+  const dispatch = useAppDispatch();
+  const history = useHistory();
+  const { handleSubmit, errors, register } = useForm();
 
-	const onSubmit = data => {
-		const params = {
-			user: {
-				email: data.email,
-				password: data.password,
-			}
-		}
-		dispatch(requestPostLogin(params));
-	}
+  const onSubmit = async (data) => {
+    const params = {
+      user: {
+        email: data.email,
+        password: data.password,
+      },
+    };
+    await dispatch(requestPostLogin(params));
 
-	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
-			<p>ログイン</p>
-			<input
-				type="email"
-				name="email"
-				placeholder="メールアドレス"
-				ref={register({required: true})}
-			/>
-			<input
-				type="password"
-				name="password"
-				placeholder="パスワード"
-				ref={register({required: true})}
-			/>
-			<button type="submit">ログイン</button>
-		</form>
-	);
+    const token = await localStorage.getItem("token");
+
+    if (token !== null) {
+      history.push("/");
+    } else {
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <p>ログイン</p>
+      <input
+        type="email"
+        name="email"
+        placeholder="メールアドレス"
+        ref={register({ required: true })}
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder="パスワード"
+        ref={register({ required: true })}
+      />
+      <button type="submit">ログイン</button>
+    </form>
+  );
 };

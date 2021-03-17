@@ -23,4 +23,11 @@ export const fetchMembers = () => {
     .catch((e) => console.error(e));
 };
 
-export const getIndex = async (params) => {};
+export const fetchMember = (memberId) => {
+  return axios
+    .get(`${DEFAULT_API_LOCALHOST}/api/members/${memberId}`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((e) => console.error(e));
+};

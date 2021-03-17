@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -15,6 +15,7 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { CreateButton } from "./CreateButton";
+import { fetchMember } from "../apis/auth.api";
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -43,6 +44,10 @@ function TablePaginationActions(props) {
   const handleLastPageButtonClick = (event) => {
     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
+
+  useEffect(() => {
+    fetchMember(1).then((data) => console.log(data));
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -115,7 +120,7 @@ const useStyles2 = makeStyles({
   },
 });
 
-export const Find = () => {
+export const Find = ({ match }) => {
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -131,6 +136,9 @@ export const Find = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  useEffect(() => {
+    fetchMember(match.params.id).then((data) => console.log(data));
+  }, []);
 
   return (
     <>

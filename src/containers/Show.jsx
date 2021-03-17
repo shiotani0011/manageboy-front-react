@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -8,26 +8,30 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-import { fetchMembers } from "../apis/auth.api";
+import { DEFAULT_API_LOCALHOST } from "../config/env";
+import { Link } from "react-router-dom";
 
 import {
   initialState,
   membersActionTyps,
   membersReducer,
 } from "../reducers/members";
+import axios from "axios";
+import { SettingsInputSvideoSharp } from "@material-ui/icons";
 
 const columns = [
   { id: "id", label: "ID", minWidth: 100 },
-  { id: "name", label: "名前", minWidth: 170 },
+  { id: "first_name", label: "名前" },
+  { id: "last_name" },
   {
-    id: "startDate",
+    id: "start_date",
     label: "受講期間",
-    minWidth: 170,
+    minWidth: 120,
     align: "right",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "endDate",
+    id: "end_date",
     label: "受講終了日",
     minWidth: 170,
     align: "right",
@@ -40,26 +44,6 @@ const columns = [
     align: "right",
     format: (value) => value.toFixed(2),
   },
-];
-
-function createData(id, name, startDate, endDate, memo) {
-  // const density = population / size;
-  return { id, name, startDate, endDate, memo };
-}
-
-const rows = [
-  createData("1", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-  createData("2", "山田花子", "2021/03/01", "2021/04/01", "簡単なメモ"),
-  createData("3", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-  createData("4", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-  createData("5", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-  createData("11", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-  createData("101", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-  createData("999", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-  createData("999", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-  createData("999", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-  createData("999", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
-  createData("999", "田中太郎", "2021/03/01", "2021/04/01", "簡単なメモ"),
 ];
 
 const useStyles = makeStyles({
@@ -85,18 +69,17 @@ export const Show = () => {
     setPage(0);
   };
 
-  const [state, dispatch] = useReducer(membersReducer, initialState);
+  // データ取得
+  const [members, setMembers] = useState([]);
 
   useEffect(() => {
-    dispatch({ type: membersActionTyps.FETCHING });
-    fetchMembers().then((res) =>
-      dispatch({
-        type: membersActionTyps.FETCH_SUCCESS,
-        payload: {
-          members: res.members,
-        },
-      })
-    );
+    async function fetchData() {
+      const result = await axios.get(`${DEFAULT_API_LOCALHOST}/api/members`);
+      console.log(result);
+      console.log(result.data);
+      setMembers(result.data);
+    }
+    fetchData();
   }, []);
 
   return (
@@ -118,52 +101,37 @@ export const Show = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
+              {members.map((row) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.first_name}>
+                          <Link to={`/find/${row.id}`}>
                             {column.format && typeof value === "number"
                               ? column.format(value)
                               : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
+                          </Link>
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={members.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-
-      {/* この部分をテーブルセルに入れたい */}
-      <div>
-        {state.membersList.map((members) => (
-          <div key={members.id}>
-            {members.first_name}
-            {members.last_name}
-          </div>
-        ))}
-      </div>
     </>
   );
 };
