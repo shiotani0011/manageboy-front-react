@@ -186,8 +186,7 @@ export const Index = (props) => {
             <Typography variant="h3" gutterBottom>
               受講生一覧
             </Typography>
-            <button onClick={handleRmToken}>ログアウト</button>
-            <CreateButton buttonName="ログアウト" onClick={handleRmToken} />
+            <CreateButton handle={handleRmToken} buttonName="ログアウト" />
           </Box>
           <hr size="1" />
         </Typography>
