@@ -136,8 +136,12 @@ export const Find = ({ match }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const [member, setMember] = useState();
   useEffect(() => {
-    fetchMember(match.params.id).then((data) => console.log(data));
+    fetchMember(match.params.id).then((data) => {
+      console.log(data);
+    });
   }, []);
 
   return (
