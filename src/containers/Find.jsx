@@ -16,6 +16,8 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { CreateButton } from "./CreateButton";
 import { fetchMember } from "../apis/auth.api";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -98,57 +100,59 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
-
-const rows = [
-  createData("ID", 1),
-  createData("名前", "田中太郎"),
-  createData("名前(カナ)", "タナカタロウ"),
-  createData("GitHub_ID", "@tanaka"),
-  createData("リポジトリURL", "https://github.com"),
-  createData("Twitter_ID", "@tanaka"),
-  createData("受講開始日", "2021/03/01"),
-  createData("受講終了日", "2021/04/01"),
-  createData("備考", "メモ"),
-];
-
-const useStyles2 = makeStyles({
+const useStyles2 = makeStyles((theme) => ({
   table: {
     minWidth: 500,
   },
-});
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
+}));
 
 export const Find = ({ match }) => {
   const classes = useStyles2();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [loading, setLoading] = useState(false);
 
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const [member, setMember] = useState({
+    id: 1,
+    first_name: "",
+    last_name: "",
+    first_name_kana: "",
+    last_name_kana: "",
+    github_id: "",
+    twitter_id: "",
+    start_date: "",
+    repository_url: "",
+    memo: "",
+  });
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  const requestMember = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchMember(match.params.id);
+      setMember(data.member);
+    } catch (error) {
+      console.error(error);
+    }
+    setLoading(false);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const [member, setMember] = useState();
   useEffect(() => {
-    fetchMember(match.params.id).then((data) => {
-      console.log(data);
-    });
+    requestMember().then();
   }, []);
 
   return (
     <>
+      {loading && (
+        <Backdrop className={classes.backdrop} open={loading}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      )}
       <Box display="flex" alignItems="center" justifyContent="space-around">
         <Typography variant="h3" gutterBottom>
           受講生詳細データ
+          {member.id}
         </Typography>
         <CreateButton buttonName={"戻る"} />
       </Box>
@@ -162,31 +166,62 @@ export const Find = ({ match }) => {
         >
           <Table className={classes.table} aria-label="custom pagination table">
             <TableBody>
-              {(rowsPerPage > 0
-                ? rows.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
-                : rows
-              ).map((row) => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell style={{ width: 170 }} align="right">
-                    {row.calories}
-                  </TableCell>
-                  <TableCell style={{ width: 1 }} align="center">
-                    {row.fat}
-                  </TableCell>
-                </TableRow>
-              ))}
-
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  id
+                </TableCell>
+                <TableCell style={{ width: 170 }} align="right">
+                  {member.id}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  氏名
+                </TableCell>
+                <TableCell style={{ width: 170 }} align="right">
+                  {member.first_name} {member.last_name}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  GitHub_ID
+                </TableCell>
+                <TableCell style={{ width: 170 }} align="right">
+                  {member.github_id}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  twitter_id
+                </TableCell>
+                <TableCell style={{ width: 170 }} align="right">
+                  {member.twitter_id}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  受講開始日
+                </TableCell>
+                <TableCell style={{ width: 170 }} align="right">
+                  {member.start_date}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  リポジトリ URL
+                </TableCell>
+                <TableCell style={{ width: 170 }} align="right">
+                  {member.repository_url}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  備考
+                </TableCell>
+                <TableCell style={{ width: 170 }} align="right">
+                  {member.memo}
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
