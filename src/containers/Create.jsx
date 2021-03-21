@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Create = () => {
+export const Create = (props) => {
   const [members, setMembers] = useState([]);
   const { register, handleSubmit, errors } = useForm();
   const [firstName, setFirstName] = useState("");
@@ -28,14 +28,26 @@ export const Create = () => {
   const [repositoryUrl, setRepositoryUrl] = useState("");
   const [startDate, setStartDate] = useState("");
   const [memo, setMemo] = useState("");
+  // const [member, setMember] = useState({
+  //   id: 1,
+  //   first_name: "",
+  //   last_name: "",
+  //   first_name_kana: "",
+  //   last_name_kana: "",
+  //   github_id: "",
+  //   twitter_id: "",
+  //   repository_url: "",
+  //   start_date: "",
+  //   memo: "",
+  // });
 
   const postMember = async (data) => {
-    console.log("data", data);
     await axios
       .post(
-        "http://localhost:4001/api/create",
+        "http://localhost:4001/api/members",
         {
           member: {
+            id: 22,
             first_name: firstName,
             last_name: lastName,
             first_name_kana: firstNameKana,
@@ -46,13 +58,35 @@ export const Create = () => {
             start_date: startDate,
             memo: memo,
           },
-        }
-        // { withCredentials: true }
+        },
+        { withCredentials: true }
       )
       .then((res) => {
         console.log("data", data);
-        console.log("res data", res.data);
-        setMembers([...members, res.data]);
+        console.log("res data", res);
+        console.log("res data", res.data.first_name);
+
+        setMembers([
+          ...members,
+          {
+            id: 11,
+            first_name: res.data.first_name,
+            last_name: res.data.last_name,
+            first_name_kana: res.data.first_name_kana,
+            last_name_kana: res.data.last_name_kana,
+            github_id: res.data.github_id,
+            repository_url: res.data.repository_url,
+            twitter_id: res.data.twitter_id,
+            start_date: res.data.start_date,
+            memo: res.data.memo,
+          },
+        ]);
+      })
+      .catch((error) => {
+        console.log("registration error", error);
+      })
+      .catch((data) => {
+        console.log(data);
       });
   };
 
@@ -92,12 +126,12 @@ export const Create = () => {
                 <TextField
                   label="性(漢字)"
                   type="text"
-                  id="first_name"
                   name="first_name"
                   size="medium"
                   margin="normal"
-                  onChange={(data) => {
-                    setFirstName(data.target.value);
+                  value={firstName}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
                   }}
                   inputRef={register({ required: true, maxLength: 20 })}
                   error={Boolean(errors.title)}
@@ -110,13 +144,12 @@ export const Create = () => {
                 <TextField
                   label="名前(漢字)"
                   type="text"
-                  id="last_name"
                   name="last_name"
                   size="normal"
                   margin="normal"
                   value={lastName}
-                  onChange={(data) => {
-                    setLastName(data.target.value);
+                  onChange={(e) => {
+                    setLastName(e.target.value);
                   }}
                   inputRef={register({ required: true, maxLength: 20 })}
                   error={Boolean(errors.title)}
@@ -129,14 +162,11 @@ export const Create = () => {
                 <TextField
                   label="性(カナ)"
                   type="text"
-                  id="first_name_kana"
                   name="first_name_kana"
                   size="normal"
                   margin="normal"
                   value={firstNameKana}
-                  onChange={(data) => {
-                    setFirstNameKana(data.target.value);
-                  }}
+                  onChange={(e) => setFirstNameKana(e.target.value)}
                   inputRef={register({ required: true, maxLength: 20 })}
                   error={Boolean(errors.title)}
                   helperText={
@@ -148,14 +178,11 @@ export const Create = () => {
                 <TextField
                   label="名前(カナ)"
                   type="text"
-                  id="last_name_kana"
                   name="last_name_kana"
                   size="normal"
                   margin="normal"
                   value={lastNameKana}
-                  onChange={(data) => {
-                    setLastNameKana(data.target.value);
-                  }}
+                  onChange={(e) => setLastNameKana(e.target.value)}
                   inputRef={register({ required: true, maxLength: 20 })}
                   error={Boolean(errors.title)}
                   helperText={
@@ -167,14 +194,11 @@ export const Create = () => {
                 <TextField
                   label="GitHub_ID"
                   type="text"
-                  id="github_id"
                   name="github_id"
                   size="normal"
                   margin="normal"
                   value={githubId}
-                  onChange={(data) => {
-                    setGithubId(data.target.value);
-                  }}
+                  onChange={(e) => setGithubId(e.target.value)}
                   inputRef={register({ required: true, maxLength: 20 })}
                   error={Boolean(errors.title)}
                   helperText={
@@ -186,14 +210,11 @@ export const Create = () => {
                 <TextField
                   label="リポジトリURL"
                   type="text"
-                  id="repository_url"
                   name="repository_url"
                   size="normal"
                   margin="normal"
                   value={repositoryUrl}
-                  onChange={(data) => {
-                    setRepositoryUrl(data.target.value);
-                  }}
+                  onChange={(e) => setRepositoryUrl(e.target.value)}
                   inputRef={register({ required: true, maxLength: 20 })}
                   error={Boolean(errors.title)}
                   helperText={
@@ -205,14 +226,11 @@ export const Create = () => {
                 <TextField
                   label="Twitter_ID"
                   type="text"
-                  id="twitter_id"
                   name="twitter_id"
                   size="normal"
                   margin="normal"
                   value={twitterId}
-                  onChange={(data) => {
-                    setTwitterId(data.target.value);
-                  }}
+                  onChange={(e) => setTwitterId(e.target.value)}
                   inputRef={register({ required: true, maxLength: 20 })}
                   error={Boolean(errors.title)}
                   helperText={
@@ -223,15 +241,12 @@ export const Create = () => {
               <Grid item xs={12}>
                 <TextField
                   label="受講期間"
-                  type="text"
-                  id="start_date"
+                  type="date"
                   name="start_date"
                   size="normal"
                   margin="normal"
                   value={startDate}
-                  onChange={(data) => {
-                    setStartDate(data.target.value);
-                  }}
+                  onChange={(e) => setStartDate(e.target.value)}
                   inputRef={register({ required: true, maxLength: 20 })}
                   error={Boolean(errors.title)}
                   helperText={
@@ -243,14 +258,11 @@ export const Create = () => {
                 <TextField
                   label="備考"
                   type="text"
-                  id="memo"
                   name="memo"
                   size="normal"
                   margin="normal"
                   value={memo}
-                  onChange={(data) => {
-                    setMemo(data.target.value);
-                  }}
+                  onChange={(e) => setMemo(e.target.value)}
                   inputRef={register({ required: true, maxLength: 20 })}
                   error={Boolean(errors.title)}
                   helperText={
