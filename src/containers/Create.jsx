@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import { Box } from "@material-ui/core";
 import axios from "axios";
 import { DEFAULT_API_LOCALHOST } from "../config/env";
+import { fetchMembers } from "../apis/auth.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,66 +29,53 @@ export const Create = (props) => {
   const [repositoryUrl, setRepositoryUrl] = useState("");
   const [startDate, setStartDate] = useState("");
   const [memo, setMemo] = useState("");
-  // const [member, setMember] = useState({
-  //   id: 1,
-  //   first_name: "",
-  //   last_name: "",
-  //   first_name_kana: "",
-  //   last_name_kana: "",
-  //   github_id: "",
-  //   twitter_id: "",
-  //   repository_url: "",
-  //   start_date: "",
-  //   memo: "",
-  // });
+  const [member, setMember] = useState({
+    id: 1,
+    first_name: "",
+    last_name: "",
+    first_name_kana: "",
+    last_name_kana: "",
+    github_id: "",
+    twitter_id: "",
+    repository_url: "",
+    start_date: "",
+    memo: "",
+  });
 
   const postMember = async (data) => {
-    await axios
-      .post(
-        "http://localhost:4001/api/members",
-        {
-          member: {
-            id: 22,
-            first_name: firstName,
-            last_name: lastName,
-            first_name_kana: firstNameKana,
-            last_name_kana: lastNameKana,
-            github_id: githubId,
-            twitter_id: twitterId,
-            repository_url: repositoryUrl,
-            start_date: startDate,
-            memo: memo,
-          },
-        },
-        { withCredentials: true }
-      )
-      .then((res) => {
-        console.log("data", data);
-        console.log("res data", res);
-        console.log("res data", res.data.first_name);
-
-        setMembers([
-          ...members,
+    try {
+      await axios
+        .post(
+          "http://localhost:4001/api/members",
           {
-            id: 11,
-            first_name: res.data.first_name,
-            last_name: res.data.last_name,
-            first_name_kana: res.data.first_name_kana,
-            last_name_kana: res.data.last_name_kana,
-            github_id: res.data.github_id,
-            repository_url: res.data.repository_url,
-            twitter_id: res.data.twitter_id,
-            start_date: res.data.start_date,
-            memo: res.data.memo,
+            member: member,
           },
-        ]);
-      })
-      .catch((error) => {
-        console.log("registration error", error);
-      })
-      .catch((data) => {
-        console.log(data);
-      });
+          { withCredentials: true }
+        )
+        .then((res) => {
+          console.log("data", data);
+          console.log("res data", res);
+          console.log("res data", res.data.first_name);
+
+          setMembers([
+            ...members,
+            {
+              id: 11,
+              first_name: res.data.first_name,
+              last_name: res.data.last_name,
+              first_name_kana: res.data.first_name_kana,
+              last_name_kana: res.data.last_name_kana,
+              github_id: res.data.github_id,
+              repository_url: res.data.repository_url,
+              twitter_id: res.data.twitter_id,
+              start_date: res.data.start_date,
+              memo: res.data.memo,
+            },
+          ]);
+        });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const onSubmit = async (data) => {
@@ -96,16 +84,6 @@ export const Create = (props) => {
     await postMember(data);
   };
   console.log(errors);
-
-  useEffect(() => {
-    async function fetchData() {
-      const result = await axios.get(`${DEFAULT_API_LOCALHOST}/api/members`);
-      console.log(result);
-      console.log(result.data);
-      setMembers(result.data);
-    }
-    fetchData();
-  }, []);
 
   return (
     <>

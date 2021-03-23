@@ -18,6 +18,7 @@ import { CreateButton } from "./CreateButton";
 import { fetchMember } from "../apis/auth.api";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { CreateModal } from "./CreateModal";
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -180,6 +181,13 @@ export const Find = ({ match }) => {
                 </TableCell>
                 <TableCell style={{ width: 170 }} align="right">
                   {member.first_name} {member.last_name}
+                  <CreateModal
+                    modalName="編集"
+                    dataName="氏名"
+                    updateName="first_name"
+                    memberId={member.id}
+                    updateData={member.first_name}
+                  />
                 </TableCell>
               </TableRow>
               <TableRow>
