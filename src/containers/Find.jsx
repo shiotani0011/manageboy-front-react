@@ -185,8 +185,10 @@ export const Find = ({ match }) => {
                     modalName="編集"
                     dataName="氏名"
                     updateName="first_name"
+                    updateNameSub="last_name"
                     memberId={member.id}
                     updateData={member.first_name}
+                    updateDataSub={member.last_name}
                   />
                 </TableCell>
               </TableRow>
@@ -196,6 +198,13 @@ export const Find = ({ match }) => {
                 </TableCell>
                 <TableCell style={{ width: 170 }} align="right">
                   {member.github_id}
+                  <CreateModal
+                    modalName="編集"
+                    dataName="GitHub_ID"
+                    updateName="github_id"
+                    memberId={member.id}
+                    updateData={member.github_id}
+                  />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -204,6 +213,13 @@ export const Find = ({ match }) => {
                 </TableCell>
                 <TableCell style={{ width: 170 }} align="right">
                   {member.twitter_id}
+                  <CreateModal
+                    modalName="編集"
+                    dataName="twitter_id"
+                    updateName="twitter_id"
+                    memberId={member.id}
+                    updateData={member.twitter_id}
+                  />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -212,6 +228,13 @@ export const Find = ({ match }) => {
                 </TableCell>
                 <TableCell style={{ width: 170 }} align="right">
                   {member.start_date}
+                  <CreateModal
+                    modalName="編集"
+                    dataName="受講開始日"
+                    updateName="start_date"
+                    memberId={member.id}
+                    updateData={member.start_date}
+                  />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -220,6 +243,13 @@ export const Find = ({ match }) => {
                 </TableCell>
                 <TableCell style={{ width: 170 }} align="right">
                   {member.repository_url}
+                  <CreateModal
+                    modalName="編集"
+                    dataName="リポジトリURL"
+                    updateName="repository_url"
+                    memberId={member.id}
+                    updateData={member.repository_url}
+                  />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -228,6 +258,13 @@ export const Find = ({ match }) => {
                 </TableCell>
                 <TableCell style={{ width: 170 }} align="right">
                   {member.memo}
+                  <CreateModal
+                    modalName="編集"
+                    dataName="備考"
+                    updateName="memo"
+                    memberId={member.id}
+                    updateData={member.memo}
+                  />
                 </TableCell>
               </TableRow>
             </TableBody>
