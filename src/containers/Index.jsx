@@ -110,6 +110,10 @@ export const Index = (props) => {
     }
   };
 
+  const handleCreatePush = () => {
+    history.push("/create");
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -186,7 +190,10 @@ export const Index = (props) => {
             <Typography variant="h3" gutterBottom>
               受講生一覧
             </Typography>
-            <CreateButton handle={handleRmToken} buttonName="ログアウト" />
+            <Box display="flex" justifyContent="space-around">
+              <CreateButton buttonName="新規登録" handle={handleCreatePush} />
+              <CreateButton handle={handleRmToken} buttonName="ログアウト" />
+            </Box>
           </Box>
           <hr size="1" />
         </Typography>
