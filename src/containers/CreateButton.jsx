@@ -23,6 +23,10 @@ export const CreateButton = (props) => {
     }
   };
 
+  const handleDiscard = () => {
+    alert("テスト");
+  };
+
   return (
     <div className={classes.root}>
       <Button variant="outlined" onClick={props.handle}>
